@@ -103,51 +103,7 @@ import java.util.*;
 	         }
 	}
 	
-  /*class to find metaphones. this is based on the metaphone rules given in Wikipedia page of Metaphone*/
-	class Metaphone{
-		/*method to simplify the given word using metaphone rules*/	
-		void find_Metaphones(String word) //experimenting
-		{
-			String tempWord="" ;
-			word=word.toUpperCase();
-			tempWord=reduceDouble(word);
-			if(tempWord.substring(0,1)=="KN"||tempWord.substring(0,1)=="GN"||tempWord.substring(0,1)=="PN"||tempWord.substring(0,1)=="AE"||tempWord.substring(0,1)=="WR")
-				tempWord=tempWord.substring(1);
-			if(tempWord.substring(tempWord.length()-1)=="MB")
-				tempWord+="M";
-			
-			tempWord=reduceVowels(tempWord); //this has to be last step. do all other reductions based on rule before this.
-			
-		}
-		
-		//method to remove duplicate letters except CC
-		String reduceDouble(String word) {
-			String tempWord=word.substring(0,0);
-			for(int curi=0;curi<word.length()-1;curi++)
-			{
-				tempWord+=word.substring(curi,curi);
-				if(word.substring(curi,curi)==word.substring(curi+1,curi+1))
-					if(word.substring(curi,curi)!="C") 
-						curi++;
-			}
-			return tempWord;
-		}
-		
-		//method to reduce vowels. we have to eliminate all the vowels except if they are the first letter.
-		String reduceVowels(String word) {
-			String letter;
-			String tempWord="";
-			for(int curi=1;curi<word.length();curi++) //curi is current letter index
-			{
-				letter=word.substring(curi,curi);
-				if(letter=="A"||letter=="E"||letter=="I"||letter=="O"||letter=="U")
-					continue; //don't add the vowel into new word
-				else
-					tempWord+=letter;
-			}
-			return tempWord;
-		}
-	}
+  
 	
 	
 	public class Spell_Checker{
