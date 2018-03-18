@@ -117,7 +117,9 @@ import java.io.*;
 	    static String inputWord;
 	    static String newMetaphone;
     	static String dictSets[]=new String[2]; //to store pairs
-    	static String suggestions[]=new String[3];
+    	static String suggestions[]=new String[40];
+    	static int order[]=new int[40];
+    	
     	
 	     public static void main(String []args){
 	        System.out.println("starting...");
@@ -151,8 +153,9 @@ import java.io.*;
 	        System.out.println("Enter word :");
 	        inputWord=sc.next();
 	        //long t1=System.nanoTime();
-	        int flag=0,flag2;
-	        Iterator<String> itr=dictionary.iterator();
+	        int flag=0;
+	        //IfWrong obj=new IfWrong();
+			Iterator<String> itr=dictionary.iterator();
         	while(itr.hasNext())
         	{
         		dictSets=itr.next().split(" ");
@@ -169,36 +172,39 @@ import java.io.*;
 	            System.out.println("Doesn't exist.");
 	        	newMetaphone=find_Metaphones(inputWord);
 	        	System.out.println(newMetaphone);
+	        	System.out.println("The correct word may be:");
 	        	/*while(itr.hasNext())
 	        		System.out.println(itr.next());*/
-	        	System.out.println("The correct word may be:");
+	        	Edit_Distance dist=new Edit_Distance();
 	        	itr=dictionary.iterator();
 	        	while(itr.hasNext())
 	        	{
 	        		dictSets=itr.next().split(" ");
-	        		if(newMetaphone.equals(dictSets[0]))
-	        		{
-	        			flag2=0;
-	        			for(int j=0;j<c;j++)
-	        			{
-	        				if(dictSets[1].equals(suggestions[j]))
-	        				{	flag2=1;   break;   }
-	        			}
-	        			if(flag2!=1)
-	        			{	suggestions[c]=dictSets[1];
-	        				c++;
-	        			}
+	        		int d=dist.editDistDP(newMetaphone,dictSets[0],newMetaphone.length(),dictSets[0].length());
+	        		//System.out.println(newMetaphone+" "+dictSets[0]+" "+dictSets[1]+" "+d);
+	        		if(d<4)
+	        		{	
+	        			suggestions[c]=dictSets[1];
+	        			order[c]=d;
+	        			c++;
 	        		}
-	        		if(c==3)
+	        	}
+	        	int count=0;
+	        	for(int i=0;i<4;i++)
+	        	{
+	        		for(int j=0;j<c;j++)
+	        		{	if(order[j]==i)
+	        			{
+	        				System.out.println(suggestions[j]);
+	        				count++;
+	        			}
+	        		if(count==4)
+	        			break;
+	        		}
+	        		if(count==4)
 	        			break;
 	        	}
-	        	if(c<3)
-	        	{
-	        		IfWrong obj=new IfWrong();
-	        		obj.generateMispellings(newMetaphone);
-	        	}
 	        }
-	        for(int j=0;j<c;j++)
-	        	System.out.println(suggestions[j]);
-	     }
+	        	
+	     }     		
 	}
