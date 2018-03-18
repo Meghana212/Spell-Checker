@@ -1,0 +1,98 @@
+import java.util.*;
+//import java.awt.List;
+import java.io.*;
+
+/*class to find metaphones. this is based on the metaphone rules given in Wikipedia page of Metaphone*/
+	class Metaphone{
+  
+		/*method to simplify the given word using metaphone rules*/	
+		void find_Metaphones(String word) //main method where we use the rules to find metaphones
+		{
+			String tempWord="" ;
+			word=word.toUpperCase();
+			tempWord=reduceDouble(word);
+			if(tempWord.substring(0,1)=="KN"||tempWord.substring(0,1)=="GN"||tempWord.substring(0,1)=="PN"||tempWord.substring(0,1)=="AE"||tempWord.substring(0,1)=="WR")
+				tempWord=tempWord.substring(1);
+			if(tempWord.substring(tempWord.length()-1)=="MB")
+				tempWord+="M";
+			
+			tempWord=reduceVowels(tempWord); //this has to be last step. do all other reductions based on rule before this.
+			tempWord=reduceDouble(tempWord); //again reducing cuz what is there are vowels consecutively
+		}
+		
+		//method to remove duplicate letters except CC
+		String reduceDouble(String word) {
+			String tempWord=word.substring(0,0);
+			for(int curi=0;curi<word.length()-1;curi++)
+			{
+				tempWord+=word.substring(curi,curi);
+				if(word.substring(curi,curi)==word.substring(curi+1,curi+1))
+					if(word.substring(curi,curi)!="C") 
+						curi++;
+			}
+			return tempWord;
+		}
+		
+		//method to reduce vowels. we have to eliminate all the vowels except if they are the first letter.
+		String reduceVowels(String word) {
+			String letter;
+			String tempWord="";
+			for(int curi=1;curi<word.length();curi++) //curi is current letter index
+			{
+				letter=word.substring(curi,curi);
+				if(letter=="A"||letter=="E"||letter=="I"||letter=="O"||letter=="U")
+					continue; //don't add the vowel into new word
+				else
+					tempWord+=letter;
+			}
+			return tempWord;
+		}
+	}
+  
+  /*main class where the input is taken and checked initially*/
+  public class SpellChecker{
+	    public static HashSet<String> dictionary;
+	    String inputWord;
+	     public static void main(String []args){
+	        System.out.println("starting...");
+	        setup();
+	        check();
+	     }
+	     
+	     static void setup()
+	     {
+	        int tableSIZE=13;
+	        dictionary = new HashSet<String>(tableSIZE);
+	        try {
+	            BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\ADE152\\Documents\\dictionary.txt"));
+	            String line = null; 
+	            while((line = bufferedReader.readLine()) != null) {
+	                dictionary.add(line);
+	            }
+	            bufferedReader.close(); //close file        
+	        }
+	        catch(FileNotFoundException ex) {
+	            ex.printStackTrace();//print error             
+	        }
+	        catch(IOException ex) {
+	            ex.printStackTrace();//print error
+	        }
+	     }
+	     
+	     static void check()
+	     {
+	    	String inputWord;
+	        Scanner sc=new Scanner(System.in);
+	        System.out.println("Enter word :");
+	        inputWord=sc.next();
+	        //long t1=System.nanoTime();
+	        if(dictionary.contains(inputWord))
+	            System.out.println("Exists!");
+	        else
+	        {
+	        	System.out.println("Doesn't exist.");
+	        }
+	        //long t2=System.nanoTime();
+        	//System.out.println("time="+(t2-t1));
+	     }
+	}
