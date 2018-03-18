@@ -1,0 +1,137 @@
+import java.util.Iterator;
+
+//import java.util.*;
+//import java.awt.List;
+//import java.io.*;
+	
+	class IfWrong extends SpellChecker{
+		String wrongWord;
+		int wordLength;
+		int vowels[]= {65,69,73,79,85};
+		int consonants[]= {66,70,72,74,75,76,77,78,80,82,83,84,87,88,89};
+		public void generateMispellings(String wordCheck){
+	         wrongWord=wordCheck;
+	         try{
+	             concatFL(wordCheck);
+	             concatLL(wordCheck);
+	             replace(wordCheck);
+	             delete(wordCheck);
+	             exchange(wordCheck);
+	         }
+	         catch(StringIndexOutOfBoundsException e){ 
+	             System.out.println();
+	         }
+	         catch(ArrayIndexOutOfBoundsException e){
+	             System.out.println();
+	         }
+		} 
+	         /**
+	          * This method concats the word behind each of the alphabet letters and checks if it is in the dictionary. 
+	          * FL for first letter
+	          * @param word the word being manipulated.
+	          */
+	         public void concatFL(String word){
+	        	 char cur; // current character
+	             String tempWord=""; // stores temp made up word
+	             for(int i=0;i<15;i++){
+	            	 cur=(char)consonants[i];//assign ASCII from index i value
+	            	 tempWord+=cur;
+	            	 //if the word is in the dictionary then add it to the possibilities list
+	            	 tempWord=tempWord.concat(word); //add passed String to end of tempWord
+	            	 checkDict(tempWord); //check to see if in dictionary
+	            	 tempWord="";//reset temp word to contain nothing
+	             }//end of for
+	             for(int i=0;i<5;i++){
+		             cur=(char)vowels[i];//assign ASCII from index i value
+		             tempWord+=cur;
+		             //if the word is in the dictionary then add it to the possibilities list
+		             tempWord=tempWord.concat(word); //add passed String to end of tempWord
+		             checkDict(tempWord); //check to see if in dictionary
+		             tempWord="";//reset temp word to contain nothing
+		         }//end of for
+	         }//end of concatFL
+
+	         /**
+	          * This concatenates the alphabet letters behind each of the word and checks if it is in the dictionary. LL for last letter.
+	          * @param word the word being manipulated.
+	          */
+	         public void concatLL(String word){
+	        	 char cur; // current character
+	             String tempWord=""; // stores temp made up word
+	             for(int i=0;i<15;i++){
+	                 cur=(char)consonants[i];//assign ASCII from index i value
+	                 tempWord=tempWord.concat(word); //add passed String to end of tempWord
+	                 tempWord+=cur;
+	                 //if the word is in the dictionary then add it to the possibilities list
+	                 checkDict(tempWord);
+	                 tempWord="";//reset temp word to contain nothing
+	             }//end of for
+	         }//end of concatLL
+
+	         /**
+	          * This method replaces the first letter (FL) of a word with alphabet letters.
+	          * @param word the word being manipulated.
+	          */
+	                
+	         /* method to replace letter between first and last letters*/
+	         public void replace(String word){
+	        	 int wordLen=word.length();
+	        	 char cur; // current character
+	             int curi=0;
+	             String tempWord=""; // stores temp made up word
+	             for(int i=0;i<5;i++){
+            		 cur=(char)vowels[i];//assign ASCII from index i value
+            		 tempWord=word.substring(0,curi)+cur+word.substring(curi+1);
+            		 //System.out.println(tempWord);
+            		 checkDict(tempWord); //check to see if in dictionary
+            		 tempWord="";//reset temp word to contain nothing
+            	 }//end of for
+	             for(curi=1;curi<wordLen;curi++) {
+	            	 for(int i=0;i<15;i++){
+	            		 cur=(char)consonants[i];//assign ASCII from index i value
+	            		 tempWord=word.substring(0,curi)+cur+word.substring(curi+1);
+	            		 //System.out.println(tempWord);
+	            		 checkDict(tempWord); //check to see if in dictionary
+	            		 tempWord="";//reset temp word to contain nothing
+	            	 }//end of for
+	             }
+	         }//end of replace
+
+	        
+	         /*This deletes every letter one by one and sees if resultant word is in dictionary
+	          */
+	         public void delete(String word){
+	        	 for(int curi=0;curi<word.length();curi++) {
+	             String tempWord=word.substring(0,curi)+word.substring(curi+1); // stores temp made up word
+	             checkDict(tempWord);
+	             }
+	         }//end of delete
+    
+	         /*method to exchange all two consecutive letters in the word and check each*/
+	         public void exchange(String word) {
+	        	 //System.out.println("xchg");
+	        	 String tempWord="";
+	        	 for(int curi=0;curi<word.length()-1;curi++)
+	        	 {
+	        		 tempWord=word.substring(0,curi)+word.substring(curi+1,curi+2)+word.substring(curi,curi+1)+word.substring(curi+2);
+	        		 checkDict(tempWord);
+	        		 tempWord="";
+	        	 }
+	         }
+	         
+	         public void checkDict(String inputWord) {
+	        	 //System.out.println(inputWord);
+	        	 Iterator<String> itr1=dictionary.iterator();
+		        	while(itr1.hasNext())
+		        	{
+		        		dictSets=itr1.next().split(" ");
+		        		if(inputWord.equals(dictSets[0]))
+		        		{
+		        			System.out.println(dictSets[1]);
+		        			c++;
+		        		}
+		        		if(c==3)
+		        			System.exit(0);
+		        	}
+		     }
+	}
