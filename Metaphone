@@ -17,7 +17,7 @@ import java.io.*;
 			if(tempWord.substring(tempWord.length()-2).equals("MB"))
 				tempWord=tempWord.substring(0,tempWord.length()-1);
 			tempWord=transformC(tempWord);
-			System.out.println(tempWord);
+			//System.out.println(tempWord);
 			tempWord=transformD(tempWord);
 			tempWord=reduceVowels(tempWord); //this has to be last step. do all other reductions based on rule before this.
 			return tempWord;
@@ -38,7 +38,10 @@ import java.io.*;
 						tempWord=word.substring(0,curi)+"T"+word.substring(curi+1);
 				}
 			}
-			return tempWord;
+			if(tempWord.equals(""))
+				return word;
+			else
+				return tempWord;
 		}
 		
 		//method to simplify according to rules if C is present. (rule number 4)
@@ -67,7 +70,10 @@ import java.io.*;
 						tempWord=word.substring(0,curi)+"K"+word.substring(curi+1);
 				}
 			}
-			return tempWord;
+			if(tempWord.equals(""))
+				return word;
+			else
+				return tempWord;
 		}
 		
 		//method to remove duplicate letters except CC
@@ -102,59 +108,4 @@ import java.io.*;
 			}
 			return tempWord;
 		}
-	}
-  
-  /*main class where the input is taken and checked initially*/
-  public class SpellChecker extends Metaphone{
-	    public static HashSet<String> dictionary;
-	    String inputWord;
-	     public static void main(String []args){
-	        System.out.println("starting...");
-	        setup();
-	        check();
-	     }
-	     
-	     static void setup()
-	     {
-	        int tableSIZE=13;
-	        dictionary = new HashSet<String>(tableSIZE);
-	        try {
-	            BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\ADE152\\Documents\\dictionary.txt"));
-	            String line = null; 
-	            while((line = bufferedReader.readLine()) != null) {
-	                dictionary.add(line);
-	            }
-	            bufferedReader.close(); //close file        
-	        }
-	        catch(FileNotFoundException ex) {
-	            ex.printStackTrace();//print error             
-	        }
-	        catch(IOException ex) {
-	            ex.printStackTrace();//print error
-	        }
-	     }
-	     
-	     static void check()
-	     {
-	    	String inputWord;
-	    	//String buffer;
-	    	String newMetaphone;
-	        Scanner sc=new Scanner(System.in);
-	        System.out.println("Enter word :");
-	        inputWord=sc.next();
-	        //long t1=System.nanoTime();
-	        if(dictionary.contains(inputWord))
-	            System.out.println("Exists!");
-	        else
-	        {
-	        	System.out.println("Doesn't exist.");
-	        	newMetaphone=find_Metaphones(inputWord);
-	        	System.out.println(newMetaphone);
-
-
-	        	
-	        }
-	        //long t2=System.nanoTime();
-        	//System.out.println("time="+(t2-t1));
-	     }
 	}
