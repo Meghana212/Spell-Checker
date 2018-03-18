@@ -121,17 +121,26 @@ import java.util.Iterator;
 	         
 	         public void checkDict(String inputWord) {
 	        	 //System.out.println(inputWord);
+	        	 int flag2;
 	        	 Iterator<String> itr1=dictionary.iterator();
 		        	while(itr1.hasNext())
 		        	{
 		        		dictSets=itr1.next().split(" ");
 		        		if(inputWord.equals(dictSets[0]))
 		        		{
-		        			System.out.println(dictSets[1]);
-		        			c++;
+		        			flag2=0;
+		        			for(int j=0;j<c;j++)
+		        			{
+		        				if(dictSets[1].equals(suggestions[j]))
+		        				{	flag2=1; break; }
+		        			}
+		        			if(flag2!=1)
+		        			{	suggestions[c]=dictSets[1];
+		        				c++;
+		        			}
 		        		}
-		        		if(c==3)
-		        			System.exit(0);
+		        		/*if(c==3)
+		        			System.exit(0);*/
 		        	}
 		     }
 	}
