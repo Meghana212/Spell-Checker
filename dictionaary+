@@ -122,7 +122,7 @@ import java.util.*;
 		
 		//method to remove duplicate letters except CC
 		String reduceDouble(String word) {
-			String tempWord="";
+			String tempWord=word.substring(0,0);
 			for(int curi=0;curi<word.length()-1;curi++)
 			{
 				tempWord+=word.substring(curi,curi);
