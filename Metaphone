@@ -6,42 +6,48 @@ import java.io.*;
 	class Metaphone{
   
 		/*method to simplify the given word using metaphone rules*/	
-		void find_Metaphones(String word) //main method where we use the rules to find metaphones
+		static String find_Metaphones(String word) //main method where we use the rules to find metaphones
 		{
 			String tempWord="" ;
 			word=word.toUpperCase();
-			tempWord=reduceDouble(word);
-			if(tempWord.substring(0,1)=="KN"||tempWord.substring(0,1)=="GN"||tempWord.substring(0,1)=="PN"||tempWord.substring(0,1)=="AE"||tempWord.substring(0,1)=="WR")
+			tempWord=word;
+			tempWord=reduceDouble(tempWord);
+			if(tempWord.substring(0,2).equals("KN")||tempWord.substring(0,2).equals("GN")||tempWord.substring(0,2).equals("PN")||tempWord.substring(0,2).equals("AE")||tempWord.substring(0,2).equals("WR"))
 				tempWord=tempWord.substring(1);
-			if(tempWord.substring(tempWord.length()-1)=="MB")
-				tempWord+="M";
+			if(tempWord.substring(tempWord.length()-2).equals("MB"))
+				tempWord=tempWord.substring(0,tempWord.length()-1);
 			
 			tempWord=reduceVowels(tempWord); //this has to be last step. do all other reductions based on rule before this.
-			tempWord=reduceDouble(tempWord); //again reducing cuz what is there are vowels consecutively
+			return tempWord;
 		}
 		
 		//method to remove duplicate letters except CC
-		String reduceDouble(String word) {
-			String tempWord=word.substring(0,0);
+		static String reduceDouble(String word) {
+			String tempWord="";
 			for(int curi=0;curi<word.length()-1;curi++)
 			{
-				tempWord+=word.substring(curi,curi);
-				if(word.substring(curi,curi)==word.substring(curi+1,curi+1))
-					if(word.substring(curi,curi)!="C") 
+				tempWord+=word.substring(curi,curi+1);
+				if(word.substring(curi,curi+1).equals(word.substring(curi+1,curi+2)))
+					if(word.substring(curi,curi+1).equals("C")) 
+						continue;
+					else
 						curi++;
 			}
+			tempWord+=word.substring(word.length()-1);
 			return tempWord;
 		}
 		
 		//method to reduce vowels. we have to eliminate all the vowels except if they are the first letter.
-		String reduceVowels(String word) {
+		static String reduceVowels(String word) {
 			String letter;
-			String tempWord="";
+			String tempWord=word.substring(0,1);
 			for(int curi=1;curi<word.length();curi++) //curi is current letter index
 			{
-				letter=word.substring(curi,curi);
-				if(letter=="A"||letter=="E"||letter=="I"||letter=="O"||letter=="U")
-					continue; //don't add the vowel into new word
+				letter=word.substring(curi,curi+1);
+				//System.out.println(letter);
+				if(letter.equals("A")||letter.equals("E")||letter.equals("I")||letter.equals("O")||letter.equals("U"))
+				{	tempWord=tempWord.concat("A"); //don't add the vowel into new word 
+				}
 				else
 					tempWord+=letter;
 			}
@@ -50,7 +56,7 @@ import java.io.*;
 	}
   
   /*main class where the input is taken and checked initially*/
-  public class SpellChecker{
+  public class SpellChecker extends Metaphone{
 	    public static HashSet<String> dictionary;
 	    String inputWord;
 	     public static void main(String []args){
@@ -82,6 +88,8 @@ import java.io.*;
 	     static void check()
 	     {
 	    	String inputWord;
+	    	String buffer;
+	    	String newMetaphone;
 	        Scanner sc=new Scanner(System.in);
 	        System.out.println("Enter word :");
 	        inputWord=sc.next();
@@ -91,6 +99,11 @@ import java.io.*;
 	        else
 	        {
 	        	System.out.println("Doesn't exist.");
+	        	newMetaphone=find_Metaphones(inputWord);
+	        	System.out.println(newMetaphone);
+
+
+	        	
 	        }
 	        //long t2=System.nanoTime();
         	//System.out.println("time="+(t2-t1));
