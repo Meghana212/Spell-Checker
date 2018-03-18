@@ -16,8 +16,57 @@ import java.io.*;
 				tempWord=tempWord.substring(1);
 			if(tempWord.substring(tempWord.length()-2).equals("MB"))
 				tempWord=tempWord.substring(0,tempWord.length()-1);
-			
+			tempWord=transformC(tempWord);
+			System.out.println(tempWord);
+			tempWord=transformD(tempWord);
 			tempWord=reduceVowels(tempWord); //this has to be last step. do all other reductions based on rule before this.
+			return tempWord;
+		}
+		
+		//method to simplify D. rule number 5
+		static String transformD(String word) {
+			String tempWord="";
+			for(int curi=0;curi<word.length();curi++)
+			{
+				if(word.substring(curi,curi+1).equals("d"))
+				{
+					if(curi+3<=word.length()) {
+					if(word.substring(curi+1,curi+3).equals("GE")||word.substring(curi+1,curi+3).equals("GY")||word.substring(curi+1,curi+3).equals("GI"))
+						tempWord=word.substring(0,curi)+"J"+word.substring(curi+1);
+					}
+					else
+						tempWord=word.substring(0,curi)+"T"+word.substring(curi+1);
+				}
+			}
+			return tempWord;
+		}
+		
+		//method to simplify according to rules if C is present. (rule number 4)
+		static String transformC(String word) {
+			String tempWord="";
+			for(int curi=0;curi<word.length();curi++)
+			{
+				if(word.substring(curi,curi+1).equals("C"))
+				{
+					if(curi+3<=word.length()) {
+					if(word.substring(curi+1,curi+3).equals("IA"))
+						tempWord=word.substring(0,curi)+"X"+word.substring(curi+1);
+					}
+					else if(word.substring(curi,curi+1).equals("I")||word.substring(curi,curi+1).equals("E")||word.substring(curi,curi+1).equals("Y"))
+						tempWord=word.substring(0,curi)+"S"+word.substring(curi+1);
+					else if(word.substring(curi,curi+1).equals("H"))
+					{
+						if(curi+3<=word.length()) {
+						if(word.substring(curi-1,curi+1).equals("SCH"))
+							tempWord=word.substring(0,curi)+"K"+word.substring(curi+1);
+						}
+						else
+							tempWord=word.substring(0,curi)+"X"+word.substring(curi+1);
+					}
+					else
+						tempWord=word.substring(0,curi)+"K"+word.substring(curi+1);
+				}
+			}
 			return tempWord;
 		}
 		
@@ -88,7 +137,7 @@ import java.io.*;
 	     static void check()
 	     {
 	    	String inputWord;
-	    	String buffer;
+	    	//String buffer;
 	    	String newMetaphone;
 	        Scanner sc=new Scanner(System.in);
 	        System.out.println("Enter word :");
