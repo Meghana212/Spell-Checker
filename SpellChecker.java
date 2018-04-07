@@ -153,6 +153,7 @@ import java.io.*;
 	        Scanner sc=new Scanner(System.in);
 	        System.out.println("Enter word :");
 	        inputWord=sc.next();
+	        inputWord=inputWord.toLowerCase();
 	        //long t1=System.nanoTime();
 	        int flag=0;
 	        //IfWrong obj=new IfWrong();
@@ -192,7 +193,39 @@ import java.io.*;
 	        			c++;
 	        		}
 	        	}
-	        	int count=0;
+	        	int temp,index;
+	        	String temps;
+	        	for(int i=0;i<4;i++)
+	        	{
+	        		int max=order[i];
+	        		index=i;
+	        		for(int j=i+1;j<c;j++)
+	        		{
+	        			if(order[j]<max)
+	        			{
+	        				max=order[j];
+	        				index=j;
+	        			}
+	        		}
+	        		if(i!=index)
+	        		{
+	        			//swapping in order
+	        			temp=order[i];
+	        			order[i]=order[index];
+	        			order[index]=temp;
+	        			//swapping in suggestions
+	        			temps=suggestions[i];
+	        			suggestions[i]=suggestions[index];
+	        			suggestions[index]=temps;
+	        		}
+	        	}
+	        	
+	        	for(int i=0;i<4;i++)
+	        	{
+	        		System.out.println(suggestions[i]);
+	        	}
+	        	
+	        	/*int count=0;
 	        	for(int i=0;i<4;i++)
 	        	{
 	        		for(int j=0;j<c;j++)
@@ -206,7 +239,7 @@ import java.io.*;
 	        		}
 	        		if(count==4)
 	        			break;
-	        	}
+	        	}*/
 	        }
 	        	
 	     }     		
