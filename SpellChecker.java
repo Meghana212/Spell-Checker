@@ -185,9 +185,7 @@ import java.io.*;
 	        		dictWord=itr.next();
 	        		dictMet=find_Metaphones(dictWord);
 	        		int d=dist.editDistDP(newMetaphone,dictMet,newMetaphone.length(),dictMet.length());
-	        		if(dictMet.equals(newMetaphone))
-	        		{
-	        			int d=dist.editDistDP(newMetaphone,dictMet,newMetaphone.length(),dictMet.length());
+	        		int d=dist.editDistDP(newMetaphone,dictMet,newMetaphone.length(),dictMet.length());
 	        			//System.out.println(newMetaphone+" "+dictSets[0]+" "+dictSets[1]+" "+d);
 	        			if(d<4)
 	        			{	
@@ -195,7 +193,6 @@ import java.io.*;
 	        				order[c]=d;
 	        				c++;
 	        			}
-	        		}
 	        	}
 	        	int temp,index;
 	        	String temps;
