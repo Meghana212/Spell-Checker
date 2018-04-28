@@ -12,10 +12,7 @@ import java.io.*;
 			word=word.toUpperCase();
 			tempWord=word;
 			tempWord=reduceDouble(tempWord);
-			if(tempWord.substring(0,2).equals("KN")||tempWord.substring(0,2).equals("GN")||tempWord.substring(0,2).equals("PN")||tempWord.substring(0,2).equals("AE")||tempWord.substring(0,2).equals("WR"))
-				tempWord=tempWord.substring(1);
-			if(tempWord.substring(tempWord.length()-2).equals("MB"))
-				tempWord=tempWord.substring(0,tempWord.length()-1);
+			tempWord=remove(tempWord);
 			tempWord=transformC(tempWord);
 			tempWord=transformD(tempWord);
 			
@@ -32,6 +29,20 @@ import java.io.*;
 			
 			tempWord=reduceVowels(tempWord); 
 			return tempWord;
+		}
+		
+		//method to remove first letter if "kn" etc. rule 3. and to remove b from end if "nb" etc. rule 2.
+		static String remove(String word)
+		{
+			if(word.length()>2)
+				if((word.substring(0,2)=="GN")||(word.substring(0,2)=="KN")||(word.substring(0,2)=="PN")||(word.substring(0,2)=="AE")||(word.substring(0,2)=="WR"))
+					word=word.substring(1);
+			
+			if(word.length()>2)
+				if(word.substring(word.length()-3)=="MB")
+					word=word.substring(0,word.length()-1);
+			
+			return word;
 		}
 		
 		//method to simplify Z. rule 18
@@ -142,7 +153,7 @@ import java.io.*;
 			return word;
 		}
 		
-		//method to simply H. rule 8
+		//method to simplify H. rule 8
 		static String transformH(String word)
 		{
 			for(int curi=0;curi<word.length()-2;curi++)
@@ -162,8 +173,9 @@ import java.io.*;
 			String tempWord="";
 			
 			//for rule 6
-			if((word.substring(word.length()-2)=="GN")||(word.substring(word.length()-2)=="GH"))
-				tempWord=word.substring(0,word.length()-3)+word.substring(word.length()-1);
+			if(word.length()>2)	
+				if((word.substring(word.length()-2)=="GN")||(word.substring(word.length()-2)=="GH"))
+					tempWord=word.substring(0,word.length()-3)+word.substring(word.length()-1);
 			
 			if(word.length()>5)
 				if(word.substring(word.length()-5).equals("GNED"))
