@@ -62,8 +62,12 @@ import java.io.*;
 		{
 			for(int curi=0;curi<word.length()-2;curi++)
 			{
-				if((word.substring(curi,curi+2)!="YA")||(word.substring(curi,curi+2)!="YE")||(word.substring(curi,curi+2)!="YI")||(word.substring(curi,curi+2)!="YO")||(word.substring(curi,curi+2)!="YU"))
-					word=word.substring(0,curi)+word.substring(curi+1);
+				for(int curi=0;curi<word.length()-2;curi++)
+				{
+					if(word.substring(curi,curi+1)=="Y")
+						if((word.substring(curi+1,curi+2)!="A")||(word.substring(curi+1,curi+2)!="E")||(word.substring(curi+1,curi+2)!="I")||(word.substring(curi+1,curi+2)!="O")||(word.substring(curi+1,curi+2)!="U"))
+							word=word.substring(0,curi)+word.substring(curi+1);
+				}
 			}
 			return word;
 		}
@@ -88,8 +92,9 @@ import java.io.*;
 					word="W"+word.substring(2);
 				for(int curi=0;curi<word.length()-2;curi++)
 				{
-					if((word.substring(curi,curi+2)!="WA")||(word.substring(curi,curi+2)!="WE")||(word.substring(curi,curi+2)!="WI")||(word.substring(curi,curi+2)!="WO")||(word.substring(curi,curi+2)!="WU"))
-					word=word.substring(0,curi)+word.substring(curi+1);
+					if(word.substring(curi,curi+1)=="W")
+						if((word.substring(curi+1,curi+2)!="A")||(word.substring(curi+1,curi+2)!="E")||(word.substring(curi+1,curi+2)!="I")||(word.substring(curi+1,curi+2)!="O")||(word.substring(curi+1,curi+2)!="U"))
+							word=word.substring(0,curi)+word.substring(curi+1);
 				}
 			}
 			return word;
@@ -118,20 +123,20 @@ import java.io.*;
 		}
 		
 		//method to simplify T. rule 13
-				static String transformT(String word)
-				{
-					for(int curi=0;curi<word.length()-3;curi++)
-					{
-						if((word.substring(curi,curi+3)=="TIO")||(word.substring(curi,curi+3)=="TIA"))
-							word=word.substring(0,curi)+"X"+word.substring(curi+1);
-						if((word.substring(curi,curi+3)=="TCH"))
-							word=word.substring(0,curi)+word.substring(curi+1);
-					}
-					for(int curi=0;curi<word.length()-2;curi++)
-						if((word.substring(curi,curi+2)=="TH"))
-							word=word.substring(0,curi)+word.substring(curi+1);
-					return word;
-				}
+		static String transformT(String word)
+		{
+			for(int curi=0;curi<word.length()-3;curi++)
+			{
+				if((word.substring(curi,curi+3)=="TIO")||(word.substring(curi,curi+3)=="TIA"))
+					word=word.substring(0,curi)+"X"+word.substring(curi+1);
+				if((word.substring(curi,curi+3)=="TCH"))
+					word=word.substring(0,curi)+word.substring(curi+1);
+			}
+			for(int curi=0;curi<word.length()-2;curi++)
+				if((word.substring(curi,curi+2)=="TH"))
+					word=word.substring(0,curi)+word.substring(curi+1);
+			return word;
+		}
 		
 		//method to simplify Q. rule 11
 		static String transformQ(String word)
